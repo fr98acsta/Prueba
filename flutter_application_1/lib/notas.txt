@@ -1,0 +1,193 @@
+
+
+
+//
+// NOTA: HAY QUE INCORPORAR EN LOS METODOS DE LOS EXTENSIONS FLUJOS DE CONTROL
+// IF ELSE CON PARAMETROS OPTATIVOS QUE TIENEN DE DEFAULT TRUE 
+// DE ESTA MANERA SIEMPRE SERA RESPONSIVE O SIEMPRE TENDRA EL INICIO Y FINAL
+// 
+
+
+
+// TODO : Poner extension de Responsive en Widgets con width y height
+// 
+// 
+// ESTE SE USA PARA CONTAINER {width, height}
+// SIZEDBOX {width, height} 
+// 
+// 
+// extension responsive on Container {
+//   Container responsive({int designWidth = 360}) {
+//     double getWidth(int width, {int designWidth}) {
+//       return (MediaQuery.of(context).size.width * width) / designWidth;
+//     }
+
+//     double getHeight(int height, {int designWidth}) {
+//       return (MediaQuery.of(context).size.width * height) / designWidth;
+//     }
+
+    // Comprobar si el contenedor tiene un ancho infinito
+//     double? width;
+//     if (this.width == double.infinity || this.width == null) {
+      // Dejar el ancho sin modificar
+//       width = null;
+//     } else {
+      // Aplicar el método getWidth
+//       width = getWidth(this.width, designWidth: designWidth);
+//     }
+
+    // Comprobar si el contenedor tiene un alto infinito
+//     double? height;
+//     if (this.height == double.infinity || this.height == null) {
+       // Dejar el alto sin modificar
+//       height = null;
+//     } else {
+       // Aplicar el método getHeight
+//       height = getHeight(this.height, designWidth: designWidth);
+//     }
+
+    // Devolver el contenedor con el ancho y el alto modificados o no según el caso
+//     return Container(
+//       width: width,
+//       height: height,
+//     );
+//   }
+// }
+
+
+
+// TODO : Poner extension de Responsive en Texto
+
+
+
+
+// extension responsive on Text {
+
+
+//  Text responsive({int widthDesign = 360}) {
+
+// double sizedText(double size){
+// return (MediaQuery.of(context).size.width * widthDesign) / size;
+// }
+
+
+//    return Text (size: sizedText(this.size, widthDesign: widthDesign ))
+//  };
+// }
+
+// TODO : Poner extension de Row y Column con espacio entre Widgets
+// 
+// extension SpacedRow on Row {
+// 
+  // Añade un método que reciba el espacio y devuelva un Row con ese espacio entre los hijos
+
+//  Row withSpace(double space) {
+// 
+    // Crea una lista de widgets con un SizedBox entre cada hijo
+
+//    List<Widget> spacedChildren = this.children
+//        .map((widget) => [widget, SizedBox(width: space).responsivo()])
+//        .expand((pair) => pair)
+//        .toList()
+//          ..removeLast();
+// 
+// Si se quiere que se añada un espacio tambien al inicio y al final
+//   
+// SizedBox sizedBox = SizedBox(width: space);
+ 
+// 
+// ..insert(0, sizedBox); No se pone el removeLast()
+// 
+
+    // Devuelve un Row con la lista de widgets modificada
+//    return Row(children: spacedChildren);
+//  }
+// }
+
+
+// TODO : Poner extension de Row y Column espacio solo en final
+ //   
+// SizedBox sizedBox = SizedBox(width: space).responsivo();
+ 
+// 
+// ..add(sizedBox); No se pone el removeLast()
+//  
+
+// TODO : Poner extension de Row y Column espacio solo en principio
+//    
+// SizedBox sizedBox = SizedBox(width: space).responsivo();
+ 
+// 
+// ..insert(0, sizedBox); No se pone el removeLast()
+// 
+
+
+
+
+// TODO : Poner extension de Align donde se introduzca y se convierta la posicion (x,y) a relativa
+//
+
+//  
+
+// extension responsivo on Align {
+//   Align responsivo(double x, double y) {
+//     double getRelativeX(x) {
+//       return (2 * x / MediaQuery.of(context).size.width) - 1;
+//     }
+
+//     double getRelativeY(y) {
+//       return (2 * y / MediaQuery.of(context).size.height) - 1;
+//     }
+
+//     return Align(
+//       alignment: AlignmentDirectional(
+//         getRelativeX(x),
+//         getRelativeY(y),
+//       ),
+//     );
+//   }
+// }
+
+
+// TODO : Poner extension de añadir a un Align a los widgets 
+// .map<Widget>((widget) => [Align (child: widget).res])
+// ..expand<Widget>((pair) => pair).toList()
+
+
+
+// TODO : Hacer el codigo limpio del UI con la modularizacion de los Children del Stack
+
+
+// ---------
+
+// FORMULAS
+
+// Posicion "x" a Posicion Relativa
+// 
+// posicionRelativa_x = ( 2x / anchoTotal ) - 1
+// 
+
+// Posicion "y" a Posicion Relativa
+// 
+// posicionRelativa_y = ( 2y / altoTotal ) - 1
+// 
+
+// Posicion Relativa a Porcentaje
+// 
+// porcentaje = ( posicionRelativa + 1 ) / 2
+// 
+
+// Porcentaje a Posicion Relativa
+// 
+// posicionRelativa = ( 2 * porcentaje ) - 1
+// 
+
+// Responsive Tamaños size width height pading y sizedBox
+// 
+// (anchoPantalla * tamañoWidget) / tamañoAnchoDiseño{360}
+// 
+
+// Responsive Tamaño letra
+// 
+// (anchoPantalla * tamañoAnchoDiseño{360}) / tamañoLetra
+// 
