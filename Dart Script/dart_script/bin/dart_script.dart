@@ -177,7 +177,7 @@ void main() {
   }
   seccion1 = """
   [
-    ${parse}
+    $parse
   ]
   """;
   print(elements[0].type);
