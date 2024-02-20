@@ -1,8 +1,3 @@
-import 'dart:io';
-import 'dart:convert';
-import 'package:flutter/material.dart';
-
-import 'dart_script.dart';
 
 // WIDGETS DE COVERTURA
 
