@@ -2,13 +2,6 @@
 // import 'dart:convert';
 //import 'package:flutter/material.dart';
 
-//List<Widget> divideEnPaginas(dynamic jsonElement) {
-// Lógica para construir el árbol de widgets desde el JSON
-// ...
-
-// return <Widget>[]; // Reemplaza con el árbol de widgets construido
-//}
-
 // Real de como convertir json a arbol de widgets en string
 
 abstract class Element {
@@ -20,7 +13,7 @@ abstract class Element {
 
   Element.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    color = json['color'];
+    // color = json['color'];
     width = json['width'].toDouble();
     height = json['height'].toDouble();
 
@@ -34,13 +27,15 @@ abstract class Element {
 
   static Element createElement(Map<String, dynamic> json) {
     switch (json['type']) {
-      case 'Frame':
+      case 'FRAME':
         return Frame.fromJson(json);
-      case 'Text':
+      case 'GROUP':
+        return Frame.fromJson(json);
+      case 'TEXT':
         return TextElement.fromJson(json);
-      case 'Vector':
+      case 'VECTOR':
         return Vector.fromJson(json);
-      case 'Image':
+      case 'IMAGE':
         return ImageElement.fromJson(json);
       // Se Puede agregar más casos según sea necesario
       default:
@@ -60,7 +55,7 @@ class Frame extends Element {
       return 'Container(\n'
           '  width: $width,\n'
           '  height: $height,\n'
-          '  color: getColorFromString("$color"),\n'
+          '  color: const Color(0xFFBDBDBD),\n'
           '  child: Column(\n'
           '    children: [\n'
           '      $childrenString\n'
@@ -71,7 +66,7 @@ class Frame extends Element {
       return 'Container(\n'
           '  width: $width,\n'
           '  height: $height,\n'
-          '  color: getColorFromString("$color"),\n'
+          '  color: const Color(0xFFBDBDBD),\n'
           ')';
     }
   }
@@ -81,7 +76,7 @@ class TextElement extends Element {
   late String text;
 
   TextElement.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    text = json['text'];
+    text = json['characters'];
   }
 
   @override
@@ -89,7 +84,7 @@ class TextElement extends Element {
     return 'Text(\n'
         '  "$text",\n'
         '  style: TextStyle(\n'
-        '    color: getColorFromString("$color"),\n'
+        '    color: const Color(0xFFBDBDBD),\n'
         '  ),\n'
         ')';
   }
@@ -101,7 +96,7 @@ class Vector extends Element {
   @override
   String toWidgetString() {
     return 'CustomPaint(\n'
-        '  painter: VectorPainter(vectorData: ${children![0].toWidgetString()}),\n'
+        '  \n'
         ')';
   }
 }
@@ -117,70 +112,80 @@ class ImageElement extends Element {
   }
 }
 
-void main() {
+List<String> seccion(Map<String, dynamic> jsonData) {
   // Ejemplo de JSON con varios tipos de elementos
   // Esto no es real.
   // Ademas que aqui se simula un JSON, uno original
   // tendira que estar en un decodeJson(json)
-  Map<String, dynamic> jsonData = {
-    "elements": [
-      {
-        "type": "Frame",
-        "color": "red",
-        "width": 100,
-        "height": 50,
-        "children": [
-          {
-            "type": "Text",
-            "color": "blue",
-            "width": 50,
-            "height": 25,
-            "text": "Hello"
-          },
-          {
-            "type": "Vector",
-            "color": "green",
-            "width": 50,
-            "height": 25,
-            "children": [
-              {"type": "Frame", "color": "yellow", "width": 30, "height": 15}
-            ]
-          }
-        ]
-      },
-      {"type": "Image", "color": "path/to/image.png", "width": 80, "height": 40}
-    ]
-  };
+  // Map<String, dynamic> jsonData = {
+  //   "elements": [
+  //     {
+  //       "type": "Frame",
+  //       "color": "red",
+  //       "width": 100,
+  //       "height": 50,
+  //       "children": [
+  //         {
+  //           "type": "Text",
+  //           "color": "blue",
+  //           "width": 50,
+  //           "height": 25,
+  //           "text": "Hello"
+  //         },
+  //         {
+  //           "type": "Vector",
+  //           "color": "green",
+  //           "width": 50,
+  //           "height": 25,
+  //           "children": [
+  //             {"type": "Frame", "color": "yellow", "width": 30, "height": 15}
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {"type": "Image", "color": "path/to/image.png", "width": 80, "height": 40}
+  //   ]
+  // };
 
   // Convertir JSON a lista de Element
-  List<Element> elements = List<Element>.from(jsonData['elements']
+  List<Element> elements = List<Element>.from(jsonData['children']
       .map((elementJson) => Element.createElement(elementJson)));
 
   // Convertir lista de Element a lista de Widgets
   final List<String> widgetTreeStrings =
       elements.map((element) => element.toWidgetString()).toList();
-
+  // print(widgetTreeStrings);
+  return widgetTreeStrings;
+  // print(widgetTreeStrings);
   // Imprimir la cadena de texto
   // widgetTreeStrings.forEach(print);
 
-  String seccion1;
-  String parse;
-  int i;
+//   String seccion1;
+//   String seccion2;
+//   String parse;
 
-  i = 0;
-  parse = "";
-  while (i < widgetTreeStrings.length) {
-    i < (widgetTreeStrings.length - 1)
-        ? parse += "${widgetTreeStrings[i]},\n"
-        : parse += "${widgetTreeStrings[i]}\n";
-    i++;
-  }
-  seccion1 = """
-  [
-    $parse
-  ]
-  """;
-  print(elements[0].type);
+//   int i;
+
+//   i = 0;
+//   parse = "";
+
+//   while (i < widgetTreeStrings.length) {
+//     i < (widgetTreeStrings.length - 1)
+//         ? parse += "${widgetTreeStrings[i]},\n"
+//         : parse += "${widgetTreeStrings[i]}\n";
+//     i++;
+//   }
+//   seccion1 = """
+//   [
+//     $parse
+//   ]
+//   """;
+//   seccion2 = """
+// List<Widget> seccion${i + 1}(BuildContext context) {
+//           return $widgetTreeStrings
+// }
+// """;
+//   print(seccion2);
 }
 
 
